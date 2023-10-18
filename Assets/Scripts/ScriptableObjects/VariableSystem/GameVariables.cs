@@ -17,4 +17,6 @@ public class GameVariables : ScriptableObject
     // Goomba's movement
     public float goombaPatrolTime;
     public float goombaMaxOffset;
+
+    public float flickerInterval;
 }

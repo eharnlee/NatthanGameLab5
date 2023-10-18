@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f89a98d426812fd42b93c957773512c3, type: 3}
+  m_Name: FireAttackAction
+  m_EditorClassIdentifier: 
+  maxPrefabInScene: 3
+  impulseForce: 1
+  degree: 45
+  attackPrefab: {fileID: 7515144794702420897, guid: 28ae70e70cabfbc46bdbabda9fbf2e78, type: 3}
+  marioFaceRight: {fileID: 11400000, guid: ad62c573fea6ffd4e893985c79891944, type: 2}

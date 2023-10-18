@@ -378,8 +378,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 580fe5f810d086d43936e7c3a4df454d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameVariables: {fileID: 11400000, guid: 6731031d64772b843a9675dc0e5cae9f, type: 2}
   marioDeath: {fileID: 11400000, guid: 5619e7bf173cd10499bc5d6e935f3d13, type: 2}
+  marioFaceRight: {fileID: 11400000, guid: ad62c573fea6ffd4e893985c79891944, type: 2}
+  gameVariables: {fileID: 11400000, guid: 6731031d64772b843a9675dc0e5cae9f, type: 2}
 --- !u!114 &107423582741570287
 MonoBehaviour:
   m_ObjectHideFlags: 0

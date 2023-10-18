@@ -82,7 +82,7 @@ public class MagicMushroomPowerUp : BasePowerUp
 
         // then "destroy" power up
         // for the mushroom to remain stationary while BoxCollider2D is inactive
-        animator.SetTrigger("reset");
+        animator.Play("LevelRestart");
         powerUpRigidBody.bodyType = RigidbodyType2D.Static;
         powerUpCollider.enabled = false;
         this.transform.position = magicMushroomStartingPosition;
@@ -107,13 +107,10 @@ public class MagicMushroomPowerUp : BasePowerUp
 
     public override void LevelRestart()
     {
+        animator.Play("LevelRestart");
+
         if (spawned)
         {
-            if (!consumed)
-            {
-                animator.SetTrigger("reset");
-            }
-
             spawned = false;
             consumed = false;
             canMove = false;

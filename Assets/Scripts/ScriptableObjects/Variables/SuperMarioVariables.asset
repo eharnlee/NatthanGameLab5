@@ -19,6 +19,6 @@ MonoBehaviour:
   deathImpulse: 10
   stompImpulse: 10
   marioStartingPosition: {x: -6.5, y: 2, z: 0}
-  currentLevel: World 1-1
   goombaPatrolTime: 0
   goombaMaxOffset: 0
+  flickerInterval: 0.2

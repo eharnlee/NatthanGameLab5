@@ -37,14 +37,15 @@ public class CoinPowerUp : BasePowerUp
         // TODO: do something with the object
     }
 
-    // public override void GameRestart()
+    // public override void LevelRestart()
     // {
+    //     animator.Play("LevelRestart");
+
     //     if (spawned)
     //     {
     //         spawned = false;
     //         consumed = false;
     //         moveRight = -1;
-    //         animator.SetTrigger("reset");
     //     }
     // }
 }

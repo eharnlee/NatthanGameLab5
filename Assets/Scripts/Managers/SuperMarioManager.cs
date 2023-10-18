@@ -18,19 +18,11 @@ public class SuperMarioManager : MonoBehaviour
     // Mario
     private GameObject marioBody;
     public static Vector3 marioPosition;
-    private bool isGamePaused;
-    private bool isGameRestarted;
 
-    // UnityEvents
-    // public UnityEvent loadScene;
-    // public UnityEvent scoreChange;
-    // public UnityEvent livesChange;
-    // public UnityEvent levelRestart;
-    // // public UnityEvent gameRestart;
-    // public UnityEvent gamePause;
-    // public UnityEvent gameResume;
-    // public UnityEvent marioDeath;
-    // public UnityEvent gameOver;
+    // states
+    private bool isGamePaused;
+    private bool isLevelRestarted;
+    private bool isGameOver;
 
     // // Audio
     // public AudioMixer audioMixer;
@@ -47,7 +39,8 @@ public class SuperMarioManager : MonoBehaviour
         StartCoroutine(WaitForLoadingScreenCoroutine());
 
         isGamePaused = false;
-        isGameRestarted = false;
+        isLevelRestarted = false;
+        isGameOver = false;
 
         // audioMixerDefaultSnapshot = audioMixer.FindSnapshot("Default");
         // audioMixerDefaultSnapshot.TransitionTo(0.1f);
@@ -60,15 +53,15 @@ public class SuperMarioManager : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(2f);
 
-        // if game is not paused, let the game start running
-        if (!isGamePaused)
+        // if game is not paused and not game over, let the game start running
+        if (!isGamePaused && !isGameOver)
         {
             Time.timeScale = 1f;
         }
         // else if (the game is paused but) the restart button has been pressed, let the game start running
-        else if (isGameRestarted)
+        else if (isLevelRestarted)
         {
-            isGameRestarted = false;
+            isLevelRestarted = false;
             Time.timeScale = 1f;
         }
         // else the game should remain paused
@@ -77,6 +70,7 @@ public class SuperMarioManager : MonoBehaviour
     // new game
     public void OnGameStart()
     {
+        isGameOver = false;
         StartCoroutine(StartGameCoroutine());
     }
 
@@ -104,11 +98,8 @@ public class SuperMarioManager : MonoBehaviour
 
     public void OnLevelRestart()
     {
-        isGameRestarted = true;
+        isLevelRestarted = true;
         StartCoroutine(WaitForLoadingScreenCoroutine());
-
-        // score.SetValue(score.currentLevelInitialScore);
-        // SceneManager.LoadScene(gameVariables.currentLevel, LoadSceneMode.Single);
     }
 
     public void OnMarioDeath()
@@ -134,6 +125,7 @@ public class SuperMarioManager : MonoBehaviour
 
     public void GameOver()
     {
+        isGameOver = true;
         StartCoroutine(GameOverCoroutine());
     }
 
@@ -147,90 +139,6 @@ public class SuperMarioManager : MonoBehaviour
         score.Value = 0;
     }
 
-    public void SmallMarioPowerUp()
-    {
-        marioBody.GetComponent<PlayerController>().SmallMarioPowerUp();
-    }
-
-    // public void LoadScene(string nextSceneName)
-    // {
-    //     StartCoroutine(LoadSceneCoroutine(nextSceneName));
-    // }
-
-    // IEnumerator LoadSceneCoroutine(string nextSceneName)
-    // {
-    //     Time.timeScale = 0.0f;
-
-    //     if (nextSceneName == "Main Menu")
-    //     {
-    //         gameVariables.currentLevel = "World 1-1";
-    //     }
-    //     else
-    //     {
-    //         gameVariables.currentLevel = nextSceneName;
-    //     }
-
-    //     SceneManager.LoadSceneAsync(nextSceneName, LoadSceneMode.Single);
-
-    //     score.currentLevelInitialScore = score.Value;
-
-    //     yield return new WaitForSecondsRealtime(0.5f);
-
-    //     // loadScene.Invoke();
-
-    //     marioBody = GameObject.Find("Mario");
-
-    //     yield return new WaitForSecondsRealtime(1.5f);
-
-    //     Time.timeScale = 1.0f;
-    // }
-
-
-
-    // public void GameRestart()
-    // {
-    //     score.SetValue(0);
-    //     score.currentLevelInitialScore = 0;
-    //     lives.SetValue(gameVariables.maxLives);
-
-
-    // }
-
-    // IEnumerator LevelRestartCoroutine()
-    // {
-
-    //     Time.timeScale = 0.0f;
-    //     SceneManager.LoadSceneAsync(gameVariables.currentLevel, LoadSceneMode.Single);
-
-    //     yield return new WaitForSecondsRealtime(0.5f);
-
-    //     loadScene.Invoke();
-    //     gameRestart.Invoke();
-
-    //     marioBody = GameObject.Find("Mario");
-
-    //     Time.timeScale = 1.0f;
-    //     // ResetAudioMixerSpecialEventsPitch();
-    // }   
-
-    // public void IncreaseScore(int increment)
-    // {
-    //     // score += increment;
-    //     // IncreaseAudioMixerSpecialEventsPitch();
-
-    //     score.ApplyChange(increment);
-    //     SetScore();
-    // }
-
-    // public void ResetHighScore()
-    // {
-    //     GameObject eventSystem = GameObject.Find("EventSystem");
-    //     eventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(null);
-
-    //     score.ResetHighestValue();
-    //     SetScore();
-    // }
-
     // public void IncreaseAudioMixerSpecialEventsPitch()
     // {
     //     specialEventsPitch += 0.025f;
@@ -241,15 +149,5 @@ public class SuperMarioManager : MonoBehaviour
     // {
     //     specialEventsPitch = 0.975f;
     //     audioMixer.SetFloat("SpecialEventsPitch", 1f);
-    // }
-
-    // public void SetScore()
-    // {
-    //     // scoreChange.Invoke();
-    // }
-
-    // public void SetLives()
-    // {
-    //     // livesChange.Invoke();
     // }
 }

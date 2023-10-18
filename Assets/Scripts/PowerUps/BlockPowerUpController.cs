@@ -53,12 +53,16 @@ public class BlockPowerUpController : MonoBehaviour, IPowerUpController
         powerUp.SpawnPowerup();
     }
 
-    public void LevelRestart()
+    public void OnLevelRestart()
     {
-        if (powerUp.hasSpawned)
+        blockAnimator.Play("LevelRestart");
+
+        if (powerUp != null)
         {
-            blockAnimator.SetTrigger("reset");
-            powerUp.LevelRestart();
+            if (powerUp.hasSpawned)
+            {
+                powerUp.LevelRestart();
+            }
         }
     }
 

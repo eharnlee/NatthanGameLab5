@@ -47,12 +47,13 @@ public abstract class BasePowerUp : MonoBehaviour, IPowerUp
 
     public virtual void LevelRestart()
     {
+        animator.Play("LevelRestart");
+
         if (spawned)
         {
             spawned = false;
             consumed = false;
             moveRight = -1;
-            animator.SetTrigger("reset");
         }
     }
 }
