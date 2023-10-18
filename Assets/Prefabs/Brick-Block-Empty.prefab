@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2085221062570103670}
   - component: {fileID: 796138249732140393}
-  - component: {fileID: 8017092215648134559}
+  - component: {fileID: 3314026100649644312}
   m_Layer: 7
   m_Name: Brick-Block-Empty
   m_TagString: Untagged
@@ -75,7 +75,7 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
---- !u!114 &8017092215648134559
+--- !u!114 &3314026100649644312
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -84,11 +84,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2764709433837470642}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ef1e5ca1df0c104cad42cdf1af89ac0, type: 3}
+  m_Script: {fileID: 11500000, guid: 3109b962bfcbfec45848416f928a25fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockAnimator: {fileID: 7844113172319182509}
-  brickBlock: {fileID: 2531958030877735567}
+  block: {fileID: 2531958030877735567}
+  powerUp: {fileID: 0}
 --- !u!1001 &9181243625779697762
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -163,10 +163,5 @@ AudioSource:
 --- !u!4 &7606556742002035958 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1649935261096301716, guid: 1692392bdcb86d44ca0f05f544c7d025, type: 3}
-  m_PrefabInstance: {fileID: 9181243625779697762}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &7844113172319182509 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 1419116774936741583, guid: 1692392bdcb86d44ca0f05f544c7d025, type: 3}
   m_PrefabInstance: {fileID: 9181243625779697762}
   m_PrefabAsset: {fileID: 0}

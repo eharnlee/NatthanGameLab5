@@ -22,15 +22,24 @@ public class BlockPowerUpController : MonoBehaviour, IPowerUpController
 
     }
 
-
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.tag == "Player" && !powerUp.hasSpawned)
+        // if there is a power up
+        if (powerUp != null)
         {
-            SpawnPowerup();
+            if (other.gameObject.tag == "Player" && !powerUp.hasSpawned)
+            {
+                SpawnPowerup();
+            }
+            else if (other.gameObject.tag == "Player")
+            {
+                blockBumpAudio.PlayOneShot(blockBumpAudio.clip);
+            }
         }
+        // else if it is an empty brick
         else if (other.gameObject.tag == "Player")
         {
+            blockAnimator.SetTrigger("hit");
             blockBumpAudio.PlayOneShot(blockBumpAudio.clip);
         }
     }

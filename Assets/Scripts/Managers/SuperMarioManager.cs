@@ -19,6 +19,7 @@ public class SuperMarioManager : MonoBehaviour
     private GameObject marioBody;
     public static Vector3 marioPosition;
     private bool isGamePaused;
+    private bool isGameRestarted;
 
     // UnityEvents
     // public UnityEvent loadScene;
@@ -46,6 +47,7 @@ public class SuperMarioManager : MonoBehaviour
         StartCoroutine(WaitForLoadingScreenCoroutine());
 
         isGamePaused = false;
+        isGameRestarted = false;
 
         // audioMixerDefaultSnapshot = audioMixer.FindSnapshot("Default");
         // audioMixerDefaultSnapshot.TransitionTo(0.1f);
@@ -58,10 +60,18 @@ public class SuperMarioManager : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(2f);
 
+        // if game is not paused, let the game start running
         if (!isGamePaused)
         {
             Time.timeScale = 1f;
         }
+        // else if (the game is paused but) the restart button has been pressed, let the game start running
+        else if (isGameRestarted)
+        {
+            isGameRestarted = false;
+            Time.timeScale = 1f;
+        }
+        // else the game should remain paused
     }
 
     // new game
@@ -76,8 +86,6 @@ public class SuperMarioManager : MonoBehaviour
         lives.SetValue(gameVariables.maxLives);
 
         yield return new WaitForSecondsRealtime(0.3f);
-
-        gameVariables.currentLevel = "World 1-1";
 
         SceneManager.LoadScene("World 1-1", LoadSceneMode.Single);
     }
@@ -96,6 +104,7 @@ public class SuperMarioManager : MonoBehaviour
 
     public void OnLevelRestart()
     {
+        isGameRestarted = true;
         StartCoroutine(WaitForLoadingScreenCoroutine());
 
         // score.SetValue(score.currentLevelInitialScore);

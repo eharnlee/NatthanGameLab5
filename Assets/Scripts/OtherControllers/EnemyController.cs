@@ -61,7 +61,7 @@ public class EnemyController : MonoBehaviour
 
         enemyAnimator.Play("Goomba Idle");
 
-        transform.localPosition = startPosition;
+        transform.position = startPosition;
         moveRight = -1;
         ComputeVelocity();
     }
@@ -85,6 +85,7 @@ public class EnemyController : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(0.3f);
 
+        // if the restart button has been pressed, then goomba should be alive and remain active
         if (!isAlive)
         {
             this.gameObject.SetActive(false);

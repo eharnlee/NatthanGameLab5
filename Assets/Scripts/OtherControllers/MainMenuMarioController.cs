@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Events;
 using Unity.VisualScripting;
 
-public class MainMenuMarioMovement : MonoBehaviour
+public class MainMenuMarioController : MonoBehaviour
 {
     private float upSpeed = 15;
     private bool onGroundState = true;
