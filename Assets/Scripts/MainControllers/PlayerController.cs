@@ -248,4 +248,14 @@ public class PlayerController : MonoBehaviour
         smallMarioPowerUpAudio.PlayOneShot(smallMarioPowerUpAudio.clip);
         marioAnimator.Play("Small Mario Power Up");
     }
+
+    public void DamageMario()
+    {
+        // GameOverAnimationStart(); // last time Mario dies right away
+
+        // pass this to StateController to see if Mario should start game over
+        // since both state StateController and MarioStateController are on the same gameobject, it's ok to cross-refer between scripts
+        GetComponent<MarioStateController>().SetPowerup(PowerUpType.Damage);
+
+    }
 }

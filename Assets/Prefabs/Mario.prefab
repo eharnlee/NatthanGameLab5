@@ -121,7 +121,9 @@ GameObject:
   - component: {fileID: 5887442953499565488}
   - component: {fileID: 3918191835201812582}
   - component: {fileID: 107423582741570287}
+  - component: {fileID: 6790794397423424854}
   - component: {fileID: 6822369487363647069}
+  - component: {fileID: 4807957638054967180}
   m_Layer: 0
   m_Name: Mario
   m_TagString: Player
@@ -340,6 +342,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 051cfb57-b811-4bb3-be25-53046d3ccc83
     m_ActionName: Main Menu/Click[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1613284d-b22f-4a18-b0f5-825a0d6a5365
+    m_ActionName: Gameplay/Fire[/Keyboard/z]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
@@ -364,6 +370,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   moveCheck:
+    m_PersistentCalls:
+      m_Calls: []
+  fire:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &3918191835201812582
@@ -409,6 +418,34 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6790794397423424854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2427339879484286101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88cd57f094f8b7a4aa50a31cd1948ab5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 085f8c4767f5356438a176eefa499cf7, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3918191835201812582}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: DamageMario
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6822369487363647069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -425,6 +462,28 @@ MonoBehaviour:
   Response:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4807957638054967180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2427339879484286101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3572459279ad9e49a5f5b2d35d202e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startState: {fileID: 11400000, guid: 1156d6dcd48cf804e826a421e4911eb2, type: 2}
+  previousState: {fileID: 0}
+  currentState: {fileID: 0}
+  remainState: {fileID: 11400000, guid: f990bc66480029c40a217e284b6bfc52, type: 2}
+  transitionStateChanged: 0
+  stateTimeElapsed: 0
+  isActive: 1
+  gameVariables: {fileID: 11400000, guid: 6731031d64772b843a9675dc0e5cae9f, type: 2}
+  currentPowerupType: -1
+  shouldBeNextState: -1
 --- !u!1 &5053170845761137795
 GameObject:
   m_ObjectHideFlags: 0

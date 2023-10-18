@@ -2,12 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MagicMushroomPowerUp : BasePowerUp
+public class FireFlowerPowerUp : BasePowerUp
 {
-    private AudioSource magicMushroomAppearAudio;
-    private Vector3 magicMushroomStartingPosition;
-    private Vector2 velocity;
-    private bool canMove;
+    private AudioSource fireFlowerAppearAudio;
 
     // setup this object's type
     // instantiate variables
@@ -15,27 +12,13 @@ public class MagicMushroomPowerUp : BasePowerUp
     {
         base.Start(); // call base class Start()
         this.type = PowerUpType.MagicMushroom;
-        canMove = false;
 
-        animator = this.transform.Find("MagicMushroomBody").gameObject.GetComponent<Animator>();
+        animator = this.transform.Find("FireFlowerBody").gameObject.GetComponent<Animator>();
 
-        magicMushroomAppearAudio = this.transform.Find("MagicMushroomAppearAudio").GetComponent<AudioSource>();
+        fireFlowerAppearAudio = this.transform.Find("FireFlowerAppearAudio").GetComponent<AudioSource>();
 
-        magicMushroomStartingPosition = this.transform.position;
-
-        // for the mushroom to remain stationary while BoxCollider2D is inactive
-        powerUpRigidBody.bodyType = RigidbodyType2D.Static;
+        // for Mario to not be able to interact with fire flower before it spawns
         powerUpCollider.enabled = false;
-
-        velocity = new Vector2(3.0f, 0f);
-    }
-
-    void Update()
-    {
-        if (canMove)
-        {
-            MoveMushroom();
-        }
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -60,7 +43,7 @@ public class MagicMushroomPowerUp : BasePowerUp
         spawned = true;
 
         animator.SetTrigger("spawned");
-        magicMushroomAppearAudio.PlayOneShot(magicMushroomAppearAudio.clip);
+        fireFlowerAppearAudio.PlayOneShot(fireFlowerAppearAudio.clip);
 
         StartCoroutine(WaitToMoveAfterSpawn());
     }
@@ -80,7 +63,6 @@ public class MagicMushroomPowerUp : BasePowerUp
     }
     public void Consume()
     {
-        canMove = false;
         consumed = true;
 
         // TODO: do something with the object
@@ -89,9 +71,7 @@ public class MagicMushroomPowerUp : BasePowerUp
         // then "destroy" power up
         // for the mushroom to remain stationary while BoxCollider2D is inactive
         animator.Play("LevelRestart");
-        powerUpRigidBody.bodyType = RigidbodyType2D.Static;
         powerUpCollider.enabled = false;
-        this.transform.position = magicMushroomStartingPosition;
     }
 
     IEnumerator WaitToMoveAfterSpawn()
@@ -100,15 +80,8 @@ public class MagicMushroomPowerUp : BasePowerUp
 
         if (spawned && !consumed)
         {
-            canMove = true;
-            powerUpRigidBody.bodyType = RigidbodyType2D.Dynamic;
             powerUpCollider.enabled = true;
         }
-    }
-
-    public void MoveMushroom()
-    {
-        powerUpRigidBody.MovePosition(powerUpRigidBody.position + velocity * moveRight * Time.fixedDeltaTime);
     }
 
     public override void LevelRestart()
@@ -119,12 +92,9 @@ public class MagicMushroomPowerUp : BasePowerUp
         {
             spawned = false;
             consumed = false;
-            canMove = false;
             moveRight = -1;
 
-            powerUpRigidBody.bodyType = RigidbodyType2D.Static;
             powerUpCollider.enabled = false;
-            this.transform.position = magicMushroomStartingPosition;
         }
     }
 }

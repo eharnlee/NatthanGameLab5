@@ -1,3 +1,4 @@
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -7,6 +8,7 @@ public class ActionManager : MonoBehaviour
     public UnityEvent jump;
     public UnityEvent jumpHold;
     public UnityEvent<int> moveCheck;
+    public UnityEvent fire;
 
     void Start()
     {
@@ -66,7 +68,22 @@ public class ActionManager : MonoBehaviour
             // Debug.Log("move stopped");
             moveCheck.Invoke(0);
         }
+    }
 
+    public void OnFireAction(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+
+        }
+        else if (context.performed)
+        {
+            fire.Invoke();
+        }
+        else if (context.canceled)
+        {
+
+        }
     }
 
     public void OnClickAction(InputAction.CallbackContext context)
