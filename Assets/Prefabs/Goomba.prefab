@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 8672657069434096144}
   - component: {fileID: 4754909706760384450}
   - component: {fileID: 3010611797882908312}
-  - component: {fileID: 1629107035096105305}
   - component: {fileID: 7499296807614590231}
   - component: {fileID: 7665187769489223936}
+  - component: {fileID: 1629107035096105305}
+  - component: {fileID: 7576037860181564891}
   m_Layer: 6
   m_Name: Goomba
   m_TagString: Enemy
@@ -161,23 +162,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.002346, y: 1.0031636}
   m_EdgeRadius: 0
---- !u!114 &1629107035096105305
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2026140582489150817}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 323dd9e10556de14a918ca4c1ef88cb3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveRight: -1
-  startTransform: {fileID: 481246930518388693}
-  enemyAnimator: {fileID: 7499296807614590231}
-  stompAudio: {fileID: 7665187769489223936}
-  enemyPrefab: {fileID: 2026140582489150817}
 --- !u!95 &7499296807614590231
 Animator:
   serializedVersion: 5
@@ -295,3 +279,46 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1629107035096105305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2026140582489150817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 323dd9e10556de14a918ca4c1ef88cb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyAnimator: {fileID: 7499296807614590231}
+  stompAudio: {fileID: 7665187769489223936}
+  scoreIncrease: {fileID: 11400000, guid: 3f060768edb0a304dae3ce57f78bd0f9, type: 2}
+--- !u!114 &7576037860181564891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2026140582489150817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88cd57f094f8b7a4aa50a31cd1948ab5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 343a092ecf6ff6e4aa19005e0b8028a5, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1629107035096105305}
+        m_TargetAssemblyTypeName: EnemyController, Assembly-CSharp
+        m_MethodName: OnLevelRestart
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

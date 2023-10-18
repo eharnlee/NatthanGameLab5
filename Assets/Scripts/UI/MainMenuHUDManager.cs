@@ -6,33 +6,21 @@ using UnityEngine.UI;
 
 public class MainMenuHUDManager : MonoBehaviour
 {
+    public IntVariable score;
+    public GameVariables gameVariables;
+
     private GameObject loadingScreen;
     private GameObject highScoreText;
-    public IntVariable score;
-
-    void Awake()
-    {
-        SuperMarioManager.instance.loadScene.AddListener(OnSceneLoad);
-        SuperMarioManager.instance.scoreChange.AddListener(SetScore);
-    }
 
     // Start is called before the first frame update
     void Start()
     {
-
-    }
-
-    public void StartNewGameButton()
-    {
-        SuperMarioManager.instance.StartNewGame();
-    }
-    public void OnSceneLoad()
-    {
         loadingScreen = this.transform.Find("LoadingScreen").gameObject;
         highScoreText = this.transform.Find("HighScoreText").gameObject;
 
-
+        score.SetValue(0);
         SetScore();
+
         StartCoroutine(LoadingScreenCoroutine());
     }
 
@@ -50,8 +38,6 @@ public class MainMenuHUDManager : MonoBehaviour
         loadingScreen.SetActive(false);
     }
 
-
-
     public void SetScore()
     {
         highScoreText.GetComponent<TextMeshProUGUI>().text = "High Score: " + score.previousHighestValue.ToString("D6");
@@ -59,6 +45,20 @@ public class MainMenuHUDManager : MonoBehaviour
 
     public void ResetHighScore()
     {
-        SuperMarioManager.instance.ResetHighScore();
+        GameObject eventSystem = GameObject.Find("EventSystem");
+        eventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(null);
+
+        score.ResetHighestValue();
+        SetScore();
     }
+
+    // public void OnSceneLoad()
+    // {
+    //     loadingScreen = this.transform.Find("LoadingScreen").gameObject;
+    //     highScoreText = this.transform.Find("HighScoreText").gameObject;
+
+
+    //     SetScore();
+    //     StartCoroutine(LoadingScreenCoroutine());
+    // }
 }
