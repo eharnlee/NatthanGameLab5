@@ -44,6 +44,7 @@ public class MagicMushroomPowerUp : BasePowerUp
         {
             // TODO: do something when colliding with Player
             Consume();
+            ApplyPowerup(col.gameObject.GetComponent<PlayerController>());
         }
         else if (col.gameObject.layer == 7) // else if hitting Pipe, flip travel direction
         {

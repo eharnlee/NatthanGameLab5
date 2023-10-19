@@ -9,11 +9,14 @@ public class MarioStateController : StateController
     public PowerUpType currentPowerupType = PowerUpType.Default;
     public MarioState shouldBeNextState = MarioState.Default;
     private SpriteRenderer spriteRenderer;
+    private AudioSource marioPowerUpAudio;
+
 
     public override void Start()
     {
         base.Start();
         GameRestart(); // clear powerup in the beginning, go to start state
+        marioPowerUpAudio = this.transform.Find("MarioPowerUpAudio").GetComponent<AudioSource>();
     }
 
     // this should be added to the GameRestart EventListener as callback
@@ -27,6 +30,10 @@ public class MarioStateController : StateController
 
     public void SetPowerup(PowerUpType i)
     {
+        if (i != PowerUpType.Damage)
+        {
+            marioPowerUpAudio.PlayOneShot(marioPowerUpAudio.clip);
+        }
         currentPowerupType = i;
     }
 

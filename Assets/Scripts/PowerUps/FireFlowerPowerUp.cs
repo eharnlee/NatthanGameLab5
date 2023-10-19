@@ -11,7 +11,7 @@ public class FireFlowerPowerUp : BasePowerUp
     protected override void Start()
     {
         base.Start(); // call base class Start()
-        this.type = PowerUpType.MagicMushroom;
+        this.type = PowerUpType.FireFlower;
 
         animator = this.transform.Find("FireFlowerBody").gameObject.GetComponent<Animator>();
 
@@ -27,6 +27,7 @@ public class FireFlowerPowerUp : BasePowerUp
         {
             // TODO: do something when colliding with Player
             Consume();
+            ApplyPowerup(col.gameObject.GetComponent<PlayerController>());
         }
         else if (col.gameObject.layer == 7) // else if hitting Pipe, flip travel direction
         {

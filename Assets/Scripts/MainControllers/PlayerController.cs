@@ -25,15 +25,14 @@ public class PlayerController : MonoBehaviour
     private bool jumpedState = false;
     private bool onGroundState = true;
 
-    private GameObject marioBody;
-    private Rigidbody2D marioBodyRigidBody;
+    private Rigidbody2D thisRigidBody;
     private SpriteRenderer marioSprite;
     private bool faceRightState = true;
 
     private Animator marioAnimator;
 
     private AudioSource marioJumpAudio;
-    private AudioSource smallMarioPowerUpAudio;
+    private AudioSource marioPowerUpAudio;
 
     [System.NonSerialized]
     public bool alive = true;
@@ -44,6 +43,7 @@ public class PlayerController : MonoBehaviour
 
     ActionManager actionManager;
 
+    private MarioStateController marioStateController;
 
 
     // Start is called before the first frame update
@@ -61,24 +61,25 @@ public class PlayerController : MonoBehaviour
         actionManager.jumpHold.AddListener(JumpHold);
         actionManager.moveCheck.AddListener(MoveCheck);
 
-        marioBody = this.transform.Find("MarioBody").gameObject;
-        marioSprite = marioBody.GetComponent<SpriteRenderer>();
-        marioBodyRigidBody = this.GetComponent<Rigidbody2D>();
+        marioSprite = this.GetComponent<SpriteRenderer>();
+        thisRigidBody = this.GetComponent<Rigidbody2D>();
 
         // update animator state
-        marioAnimator = marioBody.GetComponent<Animator>();
+        marioAnimator = this.GetComponent<Animator>();
         marioAnimator.SetBool("onGround", onGroundState);
 
         gameCamera = GameObject.FindGameObjectWithTag("MainCamera").transform;
 
         marioJumpAudio = this.transform.Find("MarioJumpAudio").GetComponent<AudioSource>();
-        smallMarioPowerUpAudio = this.transform.Find("SmallMarioPowerUpAudio").GetComponent<AudioSource>();
+        marioPowerUpAudio = this.transform.Find("MarioPowerUpAudio").GetComponent<AudioSource>();
+
+        marioStateController = this.GetComponent<MarioStateController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        marioAnimator.SetFloat("xSpeed", Mathf.Abs(marioBodyRigidBody.velocity.x));
+        marioAnimator.SetFloat("xSpeed", Mathf.Abs(thisRigidBody.velocity.x));
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -86,18 +87,18 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Enemy"))
         {
             // if above goomba, stomp on goomba
-            if (marioBodyRigidBody.transform.position.y > other.gameObject.transform.position.y + 0.2)
+            if (thisRigidBody.transform.position.y > other.gameObject.transform.position.y + 0.2)
             {
                 // alive
                 other.gameObject.GetComponent<EnemyController>().stomped();
 
-                marioBodyRigidBody.velocity = new Vector2(marioBodyRigidBody.velocity.x, 0);
-                marioBodyRigidBody.AddForce(Vector2.up * stompImpulse, ForceMode2D.Impulse);
+                thisRigidBody.velocity = new Vector2(thisRigidBody.velocity.x, 0);
+                thisRigidBody.AddForce(Vector2.up * stompImpulse, ForceMode2D.Impulse);
             }
             // else if not above goomba, die
             else
             {
-                MarioDeath();
+                DamageMario();
             }
         }
     }
@@ -114,7 +115,7 @@ public class PlayerController : MonoBehaviour
     // FixedUpdate may be called once per frame. See documentation for details.
     void FixedUpdate()
     {
-        SuperMarioManager.marioPosition = marioBodyRigidBody.position;
+        SuperMarioManager.marioPosition = thisRigidBody.position;
 
         if (alive && moving)
         {
@@ -129,7 +130,7 @@ public class PlayerController : MonoBehaviour
             updateMarioShouldFaceRight(false);
             marioSprite.flipX = true;
 
-            if (marioBodyRigidBody.velocity.x > 0.05f)
+            if (thisRigidBody.velocity.x > 0.05f)
                 marioAnimator.SetTrigger("onSkid");
 
         }
@@ -139,7 +140,7 @@ public class PlayerController : MonoBehaviour
             updateMarioShouldFaceRight(true);
             marioSprite.flipX = false;
 
-            if (marioBodyRigidBody.velocity.x < -0.05f)
+            if (thisRigidBody.velocity.x < -0.05f)
                 marioAnimator.SetTrigger("onSkid");
         }
     }
@@ -155,8 +156,8 @@ public class PlayerController : MonoBehaviour
         Vector2 movement = new Vector2(value, 0);
 
         // check if it doesn't go beyond maxSpeed
-        if (marioBodyRigidBody.velocity.magnitude < maxSpeed)
-            marioBodyRigidBody.AddForce(movement * speed);
+        if (thisRigidBody.velocity.magnitude < maxSpeed)
+            thisRigidBody.AddForce(movement * speed);
     }
 
     public void MoveCheck(int value)
@@ -178,7 +179,7 @@ public class PlayerController : MonoBehaviour
         if (alive && onGroundState)
         {
             // jump
-            marioBodyRigidBody.AddForce(Vector2.up * upSpeed, ForceMode2D.Impulse);
+            thisRigidBody.AddForce(Vector2.up * upSpeed, ForceMode2D.Impulse);
             onGroundState = false;
             jumpedState = true;
             marioJumpAudio.PlayOneShot(marioJumpAudio.clip);
@@ -194,7 +195,7 @@ public class PlayerController : MonoBehaviour
         if (alive && jumpedState)
         {
             // jump higher
-            marioBodyRigidBody.AddForce(Vector2.up * upSpeed * 30, ForceMode2D.Force);
+            thisRigidBody.AddForce(Vector2.up * upSpeed * 30, ForceMode2D.Force);
             jumpedState = false;
 
         }
@@ -212,8 +213,8 @@ public class PlayerController : MonoBehaviour
 
     void MarioDeathImpulse()
     {
-        marioBodyRigidBody.velocity = Vector2.zero;
-        marioBodyRigidBody.AddForce(Vector2.up * deathImpulse, ForceMode2D.Impulse);
+        thisRigidBody.velocity = Vector2.zero;
+        thisRigidBody.AddForce(Vector2.up * deathImpulse, ForceMode2D.Impulse);
     }
 
     public void OnLevelRestart()
@@ -223,7 +224,7 @@ public class PlayerController : MonoBehaviour
         onGroundState = true;
 
         // reset position
-        marioBodyRigidBody.transform.position = marioStartingPosition;
+        thisRigidBody.transform.position = marioStartingPosition;
 
         // reset sprite direction
         faceRightState = true;
@@ -245,7 +246,7 @@ public class PlayerController : MonoBehaviour
 
     public void SmallMarioPowerUp()
     {
-        smallMarioPowerUpAudio.PlayOneShot(smallMarioPowerUpAudio.clip);
+        marioPowerUpAudio.PlayOneShot(marioPowerUpAudio.clip);
         marioAnimator.Play("Small Mario Power Up");
     }
 
@@ -255,7 +256,11 @@ public class PlayerController : MonoBehaviour
 
         // pass this to StateController to see if Mario should start game over
         // since both state StateController and MarioStateController are on the same gameobject, it's ok to cross-refer between scripts
-        GetComponent<MarioStateController>().SetPowerup(PowerUpType.Damage);
+        if (marioStateController.currentState.name == "SmallMario")
+        {
+            MarioDeath();
+        }
 
+        GetComponent<MarioStateController>().SetPowerup(PowerUpType.Damage);
     }
 }
